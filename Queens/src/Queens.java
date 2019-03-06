@@ -1,18 +1,46 @@
+/**
+ * AUTHOR: VLADYSLAV SHATERNIK
+ * CLASS: CS4A
+ * PERIOD: MW/8am
+ * <p>
+ * Place n number of queens on an n x n chessboard so that no queen can attack any other queen.
+ * In chess, a queen is a powerful piece that can attack horizontally, vertically, and diagonally.
+ * It can move any number of spaces in a single direction. Therefore, a correct solution implies that
+ * no two queens will be placed on the same vertical column, horizontal row, or diagonal line.
+ */
 public class Queens {
     public static void main(String[] args) {
-
-        solveBoard(4);
+        for (int i = 4; i <= 10; i += 2) {
+            System.out.println("\n\n**************************************************");
+            System.out.println(i + " x " + i + " board");
+            System.out.println("**************************************************");
+            solveBoard(i);
+        }
     }
 
+    /**
+     * Wrapper for the recursive solveBoard
+     *
+     * @param n - chess board side (n x n)
+     */
     public static void solveBoard(int n) {
         int[][] board = new int[n][n];
-        solveBoard(board, 0);
+        if (!solveBoard(board, 0)) {
+            System.out.println("***** No solutions *****");
+        } else {
+            printBoard(board);
+        }
     }
 
+    /**
+     * Recursive solution to the queen problem of the given board
+     *
+     * @param board - board to solve
+     * @param col   - column where the next move goes
+     * @return - wheter the boad is solved
+     */
     private static boolean solveBoard(int[][] board, int col) {
-        printBoard(board);
-
-        // If last column then done
+        // If last column then done (base case)
         if (col == board.length) {
             return true;
         }
@@ -38,8 +66,8 @@ public class Queens {
      * Check whether the queen move is possible
      *
      * @param board - chess board where queen is 1 and empty space is 0
-     * @param row - row where queen is placed
-     * @param col - column where queen is placed
+     * @param row   - row where queen is placed
+     * @param col   - column where queen is placed
      * @return - whether the queen move is possible
      */
     private static boolean isPossibleMove(int[][] board, int row, int col) {
@@ -54,20 +82,27 @@ public class Queens {
         }
 
         // Upper diagonal
-        //TODO----------------------------------------------------------------------------------------------------------
-        // URGEEEEEEEEEEEEEEEEEEENNTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT
-        // -------------------------------------------------------------------------------------------------------------
-        for (i = row, j = col; i >= 0 && j >= 0; i--, j--) {
+        i = row;
+        j = col;
+        while (i >= 0 && j >= 0) {
             if (board[i][j] == 1) {
                 return false;
             }
+
+            i--;
+            j--;
         }
 
         // Lower diagonal
-        for (i = row, j = col; j >= 0 && i < board.length; i++, j--) {
+        i = row;
+        j = col;
+        while (j >= 0 && i < board.length) {
             if (board[i][j] == 1) {
                 return false;
             }
+
+            i++;
+            j--;
         }
 
         return true;
